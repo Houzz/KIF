@@ -12,45 +12,45 @@
 
 @implementation KIFUITestActor (ConditionalTests)
 
-- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error
+- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:NO error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:NO error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:value traits:traits tappable:NO error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:value traits:traits tappable:NO error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error
+- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:YES error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:YES error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+- (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingViewWithAccessibilityLabel:label value:value traits:traits tappable:YES error:error];
+    return [self tryFindingViewWithAccessibilityLabel:label value:value traits:traits tappable:YES error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
+- (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self tryFindingAccessibilityElement:NULL view:NULL withLabel:label value:value traits:traits tappable:mustBeTappable error:error];
+    return [self tryFindingAccessibilityElement:NULL view:NULL withLabel:label value:value traits:traits tappable:mustBeTappable error:error useIdentifier:useIdentifier];
 }
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
     return [self tryRunningBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error useIdentifier:useIdentifier] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     } complete:nil timeout:1.0 error:error];
 }
 

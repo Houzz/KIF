@@ -107,9 +107,9 @@ NSString *const inputFieldTestString = @"Testing";
 #pragma mark - System Actions
 
 #if TARGET_IPHONE_SIMULATOR
-- (BOOL)acknowledgeSystemAlert;
+- (BOOL)acknowledgeSystemAlert:(int)buttonNumber;
 {
-    return [self.actor acknowledgeSystemAlert];
+    return [self.actor acknowledgeSystemAlert:buttonNumber];
 }
 #endif
 
@@ -200,7 +200,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)tap;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
-    [self.actor tapAccessibilityElement:found.element inView:found.view];
+    [self.actor tapAccessibilityElement:found.element inView:found.view ];
 }
 
 - (void)longPress;

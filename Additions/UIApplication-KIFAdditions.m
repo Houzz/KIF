@@ -42,7 +42,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 #pragma mark - Finding elements
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 {
     // Go through the array of windows in reverse order to process the frontmost window first.
     // When several elements with the same accessibilitylabel are present the one in front will be picked.
@@ -50,7 +50,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         if (window.hidden) {
             continue;
         }
-        UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits useIdentifier:useIdentifier];
         if (element) {
             return element;
         }

@@ -32,7 +32,7 @@
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Finds an accessibility element and view with a matching label, value, and traits, optionally passing a tappability test.
@@ -46,7 +46,7 @@
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Finds an accessibility element with a matching label, value, and traits.
@@ -57,7 +57,7 @@
  @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
  @return The found accessibility element.  If @c nil see the @c error for a detailed reason.
  */
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Finds an accessibility element with a matching label, value, and traits from specified root view.
@@ -69,7 +69,7 @@
  @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
  @return The found accessibility element.  If @c nil see the @c error for a detailed reason.
  */
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error;
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Finds an accessibility element and view from the specified root view where the element passes the predicate, optionally passing a tappability test.

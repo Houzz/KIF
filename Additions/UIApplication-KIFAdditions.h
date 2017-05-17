@@ -41,7 +41,7 @@ CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, C
  @param traits The accessibility traits of the element to search for. Elements that do not include at least these traits are ignored.
  @return The found accessibility element or @c nil if the element could not be found.
  */
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Finds an accessibility element where @c matchBlock returns @c YES, across all windows in the application starting at the fronmost window.

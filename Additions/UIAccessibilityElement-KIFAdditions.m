@@ -38,14 +38,14 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return (UIView *)element;
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self accessibilityElement:foundElement view:foundView withLabel:label value:value traits:traits fromRootView:NULL tappable:mustBeTappable error:error];
+    return [self accessibilityElement:foundElement view:foundView withLabel:label value:value traits:traits fromRootView:NULL tappable:mustBeTappable error:error useIdentifier:useIdentifier];
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:fromView error:error];
+    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:fromView error:error useIdentifier:useIdentifier];
     if (!element) {
         return NO;
     }
@@ -58,7 +58,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     // viewContainingAccessibilityElement:.. can cause scrolling, which can cause cell reuse.
     // If this happens, the element we kept a reference to might have been reconfigured, and a
     // different element might be the one that matches.
-    if (![UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits]) {
+    if (![UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits useIdentifier:useIdentifier]) {
         return NO;
     }
     
@@ -113,24 +113,24 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return YES;
 }
 
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error useIdentifier:(Boolean)useIdentifier
 {
-    return [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:NULL error:error];
+    return [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:NULL error:error useIdentifier:useIdentifier];
 }
 
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error;
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error useIdentifier:(Boolean)useIdentifier;
 {
     UIAccessibilityElement *element = NULL;
     if (fromView == NULL) {
-        element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits useIdentifier:useIdentifier];
     } else {
-        element = [fromView accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        element = [fromView accessibilityElementWithLabel:label accessibilityValue:value traits:traits useIdentifier:useIdentifier];
     }
     if (element || !error) {
         return element;
     }
     
-    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
+    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits useIdentifier:useIdentifier];
     // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
     if (value && element) {
         *error = [NSError KIFErrorWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value];
@@ -138,7 +138,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     // Check the traits, too.
-    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
+    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone useIdentifier:useIdentifier];
     if (traits != UIAccessibilityTraitNone && element) {
         *error = [NSError KIFErrorWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits];
         return nil;

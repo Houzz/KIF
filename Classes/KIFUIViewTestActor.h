@@ -391,7 +391,7 @@ extern NSString *const inputFieldTestString;
  @abstract If present, dismisses a system alert with the last button, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
-- (BOOL)acknowledgeSystemAlert;
+- (BOOL)acknowledgeSystemAlert:(int)buttonNumber;
 #endif
 
 

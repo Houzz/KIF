@@ -171,6 +171,13 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
     va_end(args);
 }
 
+- (void)fail:(NSString *)message
+{
+    NSError *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:message, NSLocalizedDescriptionKey, nil]];
+    [self failWithError:error stopTest:YES];
+}
+
+
 - (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest
 {
     [self.delegate failWithException:[NSException failureInFile:self.file atLine:(int)self.line withDescription:error.localizedDescription] stopTest:stopTest];

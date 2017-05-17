@@ -87,26 +87,26 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return classesToSkip;
 }
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier
 {
-    return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone];
+    return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone useIdentifier:useIdentifier];
 }
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 {
-    return [self accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
+    return [self accessibilityElementWithLabel:label accessibilityValue:nil traits:traits useIdentifier:useIdentifier];
 }
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 {
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
         
-        return [UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits];
+        return [UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits useIdentifier:useIdentifier];
         
     }];
 }
 
-+ (BOOL)accessibilityElement:(UIAccessibilityElement *)element hasLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits
++ (BOOL)accessibilityElement:(UIAccessibilityElement *)element hasLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier
 {
     // TODO: This is a temporary fix for an SDK defect.
     NSString *accessibilityValue = nil;
@@ -120,8 +120,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
         accessibilityValue = [(NSAttributedString *)accessibilityValue string];
     }
-    
-    BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityIdentifier);
+    BOOL labelsMatch;
+    if (useIdentifier) {
+        labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityIdentifier);
+    }else {
+        labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
+    }
     BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
     BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
     

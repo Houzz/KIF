@@ -100,19 +100,19 @@ static void FixReactivateApp(void)
     return sharedHelper;
 }
 
-+ (BOOL)acknowledgeSystemAlert {
-    return [[self sharedHelper] acknowledgeSystemAlert];
++ (BOOL)acknowledgeSystemAlert:(int)buttonNumber {
+    return [[self sharedHelper] acknowledgeSystemAlert:buttonNumber];
 }
 
 + (void)deactivateAppForDuration:(NSNumber *)duration {
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
 
-- (BOOL)acknowledgeSystemAlert {
+- (BOOL)acknowledgeSystemAlert:(int)buttonNumber {
     UIAApplication *application = [[self target] frontMostApp];
 	UIAAlert* alert = application.alert;
 	if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert]) {
-            [[alert.buttons lastObject] tap];
+            [[alert.buttons objectAtIndex:buttonNumber] tap];
             while ([self _alertIsValidAndVisible:alert]) {
                 // Wait for button press to complete.
                 KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
