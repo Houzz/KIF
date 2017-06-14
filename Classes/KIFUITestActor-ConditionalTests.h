@@ -66,3 +66,9 @@
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 @end
+
+@interface KIFUITestActor (Regex)
+
+- (UIView *)waitForViewWithAccessibilityContainsPredicate:(NSString *)pattern useIdentifier:(Boolean)useIdentifier;
+
+@end

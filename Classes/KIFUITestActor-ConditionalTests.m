@@ -71,3 +71,18 @@
 }
 
 @end
+
+@implementation KIFUITestActor (Regex)
+
+- (UIView *)waitForViewWithAccessibilityContainsPredicate:(NSString *)pattern useIdentifier:(Boolean)useIdentifier {
+    
+    UIView *view = nil;
+    if (useIdentifier) {
+        [self waitForAccessibilityElement:NULL view:&view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier CONTAINS %@", pattern] tappable:NO];
+    } else {
+        [self waitForAccessibilityElement:NULL view:&view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel CONTAINS %@", pattern] tappable:NO];
+    }
+    return view;
+}
+
+@end
