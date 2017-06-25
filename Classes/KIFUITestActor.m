@@ -1161,9 +1161,9 @@
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
 {
-    if (![collectionView isKindOfClass:[UICollectionView class]]) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a collection view"] stopTest:YES];
-    }
+//    if (![collectionView isKindOfClass:[UICollectionView class]]) {
+//        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a collection view"] stopTest:YES];
+//    }
 
     NSInteger section = indexPath.section;
     NSInteger item = indexPath.item;
