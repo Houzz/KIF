@@ -976,7 +976,7 @@
 {
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
   
-    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    const NSUInteger kNumberOfPointsInSwipePath = 40;
   
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
     CGRect elementFrame = [self elementFrameForElement:element andView:viewToSwipe];
