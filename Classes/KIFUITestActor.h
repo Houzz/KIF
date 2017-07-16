@@ -87,40 +87,40 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Waits until a view or accessibility element is present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  
- If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ If the view you want to wait for is tappable, use the -waitForTappableView: methods instead as they provide a more strict test.
  @param label The accessibility label of the element to wait for.
  */
-- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  
- If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ If the view you want to wait for is tappable, use the -waitForTappableView: methods instead as they provide a more strict test.
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForView:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 
 /*!
  @abstract Waits until a view or accessibility element is present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  
- If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ If the view you want to wait for is tappable, use the -waitForTappableView: methods instead as they provide a more strict test.
  @param label The accessibility label of the element to wait for.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  @result A configured test step.
  */
-- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is no longer present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
  @param label The accessibility label of the element to wait for.
  */
-- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)waitForAbsenceOfView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is no longer present.
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (void)waitForAbsenceOfView:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is no longer present.
@@ -137,14 +137,14 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (void)waitForAbsenceOfView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is present and available for tapping.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
  @param label The accessibility label of the element to wait for.
  */
-- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForTappableView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is present and available for tapping.
@@ -152,7 +152,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForTappableView:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Waits until a view or accessibility element is present and available for tapping.
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (UIView *)waitForTappableView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 
 /*!
@@ -252,7 +252,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
  @param label The accessibility label of the element to tap.
  */
-- (void)tapViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)tapView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
@@ -260,7 +260,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to tap.
  @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
  */
-- (void)tapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (void)tapView:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
@@ -271,11 +271,11 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
  */
-- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (void)tapView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Taps a particular view in the view heirarchy.
- @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @discussion Unlike the -tapView: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
  */
@@ -287,11 +287,11 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param accessibilityLabel The accessibility identifier of the view to interact with.
  @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
  */
--(void)tapStepperWithAccessibilityLabel:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection useIdentifier:(Boolean)useIdentifier;
+-(void)tapStepper:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
- @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @discussion Unlike the -tapView: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
  */
@@ -299,7 +299,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
 /*!
  @abstract Taps the screen at a particular point.
- @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -waitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
+ @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -waitForView: with the label for another view that should appear on the same screen.
 
  @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
  */
@@ -311,7 +311,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to tap.
  @param duration The length of time to long press the element.
  */
-- (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
+- (void)longPressView:(NSString *)label duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Performs a long press on a particular view in the view hierarchy.
@@ -322,7 +322,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The accessibility value of the element to tap.
  @param duration The length of time to long press the element.
  */
-- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
+- (void)longPressView:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
 
 - (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
 
@@ -336,7 +336,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
  @param duration The length of time to long press the element.
  */
-- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
+- (void)longPressView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration useIdentifier:(Boolean)useIdentifier;
 
 
 /*!
@@ -381,7 +381,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param text The text to enter.
  @param label The accessibility label of the element to type into.
  */
-- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)enterText:(NSString *)text intoView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.
@@ -391,16 +391,16 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
  @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
  */
-- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult useIdentifier:(Boolean)useIdentifier;
+- (void)enterText:(NSString *)text intoView:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult useIdentifier:(Boolean)useIdentifier;
 
 - (void)clearTextFromFirstResponder;
-- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
-- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
+- (void)clearTextFromView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)clearTextFromView:(NSString *)label traits:(UIAccessibilityTraits)traits useIdentifier:(Boolean)useIdentifier;
 - (void)clearTextFromElement:(UIAccessibilityElement *)element inView:(UIView *)view;
 
 - (void)clearTextFromAndThenEnterTextIntoCurrentFirstResponder:(NSString *)text;
-- (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
-- (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult useIdentifier:(Boolean)useIdentifier;
+- (void)clearTextFromAndThenEnterText:(NSString *)text intoView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)clearTextFromAndThenEnterText:(NSString *)text intoView:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Sets text into a particular view in the view hierarchy. No animation nor typing simulation.
@@ -408,7 +408,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param text The text to set.
  @param label The accessibility label of the element to set the text on.
  */
-- (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)setText:(NSString *)text intoView:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Gets text from a given label/text field/text view
@@ -464,7 +464,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param switchIsOn The desired position of the UISwitch.
  @param label The accessibility label of the element to switch.
  */
-- (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)setOn:(BOOL)switchIsOn forSwitch:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Toggles a UISwitch into a specified position.
@@ -482,7 +482,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The desired value of the UISlider.
  @param label The accessibility label of the element to drag.
  */
-- (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label useIdentifier:(Boolean)useIdentifier;
+- (void)setValue:(float)value forSlider:(NSString *)label useIdentifier:(Boolean)useIdentifier;
 - (void)setValue:(float)value forSlider:(UISlider *)slider;
 
 /*!
@@ -509,7 +509,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param tableViewLabel Accessibility label of the table view.
  @param indexPath Index path of the row to tap.
  */
-- (void)tapRowInTableViewWithAccessibilityLabel:(NSString *)tableViewLabel atIndexPath:(NSIndexPath *)indexPath useIdentifier:(Boolean)useIdentifier KIF_DEPRECATED("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
+- (void)tapRowInTableView:(NSString *)tableViewLabel atIndexPath:(NSIndexPath *)indexPath useIdentifier:(Boolean)useIdentifier KIF_DEPRECATED("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
 
 /*!
  @abstract Taps the row at indexPath in a table view with the given identifier.
@@ -569,7 +569,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the view to swipe.
  @param direction The direction in which to swipe.
  */
-- (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
+- (void)swipeView:(NSString *)label inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Swipes a particular view in the view hierarchy in the given direction.
@@ -578,7 +578,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param value The accessibility value of the view to swipe.
  @param direction The direction in which to swipe.
  */
-- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
+- (void)swipeView:(NSString *)label value:(NSString *)value inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Swipes a particular view in the view hierarchy in the given direction.
@@ -588,11 +588,11 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param traits The accessibility traits of the view to swipe. Elements that do not include at least these traits are ignored.
  @param direction The direction in which to swipe.
  */
-- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
+- (void)swipeView:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Swipes a particular view in the view heirarchy.
- @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @discussion Unlike the -swipeView: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
  */
@@ -604,7 +604,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the view to swipe.
  @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
  */
-- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration useIdentifier:(Boolean)useIdentifier;
+- (void)pullToRefreshView:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
@@ -612,7 +612,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the view to swipe.
  @param value The accessibility value of the view to swipe.
  */
-- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value useIdentifier:(Boolean)useIdentifier;
+- (void)pullToRefreshView:(NSString *)label value:(NSString *)value useIdentifier:(Boolean)useIdentifier;
 
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
@@ -630,7 +630,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
-- (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction useIdentifier:(Boolean)useIdentifier KIF_DEPRECATED("Use scrollViewWithAccessibilityIdentifier:byFractionOfSizeHorizontal:vertical:");
+- (void)scrollView:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction useIdentifier:(Boolean)useIdentifier KIF_DEPRECATED("Use scrollViewWithAccessibilityIdentifier:byFractionOfSizeHorizontal:vertical:");
 
 /*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
@@ -658,7 +658,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  step returns success else it will attempt to wait until they do.
  @param label The accessibility label of the element to wait for.
  */
-- (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label;
+- (void)waitForFirstResponder:(NSString *)label;
 
 /*!
  @abstract Waits until a view or accessibility element is the first responder.
@@ -668,7 +668,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (void)waitForFirstResponder:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
 - (void)tapStatusBar;
 
