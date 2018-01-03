@@ -8,20 +8,39 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFUITestActor.h"
-#import "KIFSystemTestActor.h"
-#import "UIApplication-KIFAdditions.h"
-#import "UIWindow-KIFAdditions.h"
-#import "UIAccessibilityElement-KIFAdditions.h"
-#import "UIScreen+KIFAdditions.h"
-#import "UIView-KIFAdditions.h"
+
 #import "CALayer-KIFAdditions.h"
-#import "UITableView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
-#import "NSError-KIFAdditions.h"
+#import "KIFSystemTestActor.h"
+#import "KIFTestActor_Private.h"
 #import "KIFTypist.h"
+#import "NSError-KIFAdditions.h"
+#import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UIAutomationHelper.h"
+#import "UIScreen+KIFAdditions.h"
+#import "UITableView-KIFAdditions.h"
+#import "UIView-KIFAdditions.h"
+#import "UIWindow-KIFAdditions.h"
 
 #define kKIFMinorSwipeDisplacement 5
+
+
+#if DEPRECATE_KIF_TESTER
+KIFUITestActor *_KIF_tester()
+{
+    NSCAssert(NO, @"Attempting to use deprecated `KIFUITestActor`!");
+    return nil;
+}
+#endif
+
+
+@interface KIFUITestActor ()
+
+@property (nonatomic, assign) BOOL validateEnteredText;
+
+@end
+
 
 @implementation KIFUITestActor
 
@@ -30,6 +49,20 @@
     if (self == [KIFUITestActor class]) {
         [KIFTypist registerForNotifications];
     }
+}
+
+- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
+{
+    self = [super initWithFile:file line:line delegate:delegate];
+    NSParameterAssert(self);
+    _validateEnteredText = YES;
+    return self;
+}
+
+- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
+{
+    self.validateEnteredText = validateEnteredText;
+    return self;
 }
 
 - (UIView *)waitForView:(NSString *)label useIdentifier:(Boolean)useIdentifier
@@ -441,7 +474,9 @@
     }
 
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    [self expectView:view toContainText:expectedResult ?: text];
+    if (self.validateEnteredText) {
+        [self expectView:view toContainText:expectedResult ?: text];
+    }
 }
 
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult
@@ -470,9 +505,11 @@
 
 - (void)clearTextFromFirstResponder
 {
-    UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
-    if ([firstResponder isKindOfClass:[UIView class]]) {
-        [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+    @autoreleasepool {
+        UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
+        if ([firstResponder isKindOfClass:[UIView class]]) {
+            [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+        }
     }
 }
 
@@ -556,41 +593,67 @@
     return @"";
 }
 
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
-{
-    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker withSearchOrder:KIFPickerSearchForwardFromStart];
-}
-
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
-{
-    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
-}
-
 - (void)selectPickerViewRowWithTitle:(NSString *)title
 {
     NSArray *dataToSelect = @[ title ];
-    [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView withSearchOrder:KIFPickerSearchForwardFromStart];
+    [self selectPickerValue:dataToSelect fromPicker:nil pickerType:KIFUIPickerView withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component
 {
-    [self selectPickerViewRowWithTitle:title inComponent:component withSearchOrder:KIFPickerSearchForwardFromStart];
+    [self selectPickerViewRowWithTitle:title inComponent:component fromPicker:nil withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
+    [self selectPickerViewRowWithTitle:title inComponent:component fromPicker:nil withSearchOrder:searchOrder];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
+{
+    [self selectPickerValue:datePickerColumnValues fromPicker:nil pickerType:KIFUIDatePicker withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
+    [self selectPickerValue:datePickerColumnValues fromPicker:nil pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIPickerView *)picker withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
+    [self selectPickerValue:datePickerColumnValues fromPicker:picker pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component fromPicker:(UIPickerView *)picker
+{
+    [self selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component fromPicker:(UIPickerView *)picker withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
     NSMutableArray *dataToSelect = [[NSMutableArray alloc] init];
 
-    // Assume it is datePicker and then test our hypothesis later!
-    UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-
-    // Check which type of UIPickerVIew is visible on current window.
+    UIPickerView *pickerView = picker;
     KIFPickerType pickerType = 0;
-    if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
-        pickerType = KIFUIDatePicker;
+
+    if (pickerView == nil) {
+        // Find all pickers in view. Either UIDatePickerView or UIPickerView
+        NSArray *datePickerViews = [[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+        NSArray *pickerViews = [[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+
+        // Grab one picker and assume it is datePicker and then test our hypothesis later!
+        pickerView = [datePickerViews lastObject];
+        if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
+            pickerType = KIFUIDatePicker;
+        } else {
+            pickerView = [pickerViews lastObject];
+            pickerType = KIFUIPickerView;
+        }
     } else {
-        pickerType = KIFUIPickerView;
-        pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
+            pickerType = KIFUIDatePicker;
+        } else {
+            pickerType = KIFUIPickerView;
+        }
     }
 
     // Add title at component index and add empty strings for other.
@@ -603,14 +666,20 @@
             NSString *rowTitle = nil;
             if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                 rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:currentIndex forComponent:i];
+            } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:attributedTitleForRow:forComponent:)]) {
+                rowTitle = [[pickerView.delegate pickerView:pickerView attributedTitleForRow:currentIndex forComponent:i] string];
             } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
                 // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                 UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:currentIndex forComponent:i reusingView:nil];
-                NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                UILabel *label = (labels.count > 0 ? labels[0] : nil);
-                rowTitle = label.text;
+                if ([rowView isKindOfClass:[UILabel class]]) {
+                    UILabel *label = (UILabel *) rowView;
+                    rowTitle = label.text;
+                } else {
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                    rowTitle = label.text;
+                }
             }
-            
             if (rowTitle) {
                 [dataToSelect addObject: rowTitle];
             } else {
@@ -618,11 +687,10 @@
             }
         }
     }
-
-    [self selectPickerValue:dataToSelect pickerType:pickerType withSearchOrder:searchOrder];
+    [self selectPickerValue:dataToSelect fromPicker:pickerView pickerType:pickerType withSearchOrder:searchOrder];
 }
 
-- (void)selectPickerValue:(NSArray *)pickerColumnValues pickerType:(KIFPickerType)pickerType withSearchOrder:(KIFPickerSearchOrder)searchOrder
+- (void)selectPickerValue:(NSArray *)pickerColumnValues fromPicker:(UIPickerView *)picker pickerType:(KIFPickerType)pickerType withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         NSInteger columnCount = [pickerColumnValues count];
@@ -631,23 +699,25 @@
             [found_values addObject:[NSNumber numberWithBool:NO]];
         }
         // Find the picker view
-        UIPickerView *pickerView = nil;
-        switch (pickerType)
-        {
-            case KIFUIDatePicker:
+        UIPickerView *pickerView = picker;
+        if (pickerView == nil) {
+            switch (pickerType)
             {
-                pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-                KIFTestCondition(pickerView, error, @"No picker view is present");                
-                break;
-            }
-            case KIFUIPickerView:
-            {
-                pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                case KIFUIDatePicker:
+                {
+                    pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                    KIFTestCondition(pickerView, error, @"No picker view is present");
+                    break;
+                }
+                case KIFUIPickerView:
+                {
+                    pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                }
             }
         }
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
-        KIFTestCondition(componentCount == columnCount, error, @"The UIDatePicker does not have the expected column count.");
+        KIFTestCondition(componentCount == columnCount, error, @"The Picker does not have the expected column count.");
         
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
 

@@ -11,7 +11,16 @@
 #import <UIKit/UIKit.h>
 #import "UIView-KIFAdditions.h"
 
+
+#if DEPRECATE_KIF_TESTER
+// Add `-DDEPRECATE_KIF_TESTER=1` to OTHER_CFLAGS if you'd like to prevent usage of `tester`.
+@class KIFUITestActor;
+KIFUITestActor *_KIF_tester() __attribute__((deprecated("Use of `tester` has been deprecated; Use `viewTester` instead.")));
+#define tester _KIF_tester()
+#else
 #define tester KIFActorWithClass(KIFUITestActor)
+#endif
+
 
 /*!
  @enum KIFSwipeDirection
@@ -82,6 +91,15 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 };
 
 @interface KIFUITestActor : KIFTestActor
+
+/*!
+ @abstract Controls if typing methods will validate the entered text.
+ @discussion This method will only impact the functioning of the `enterText:...` method variants.
+ 
+ @param validateEnteredText Whether or not to validate the entered text. Defaults to YES.
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 
 /*!
  @abstract Waits until a view or accessibility element is present.
